@@ -41,6 +41,7 @@ final class ElevenlabsClientTest extends TestCase
         $task = $client->textToSpeech->create([
             'model' => 'text-to-speech-multilingual-v2',
             'text' => 'Hello from RunAPI',
+            'voice' => 'EkK5I93UQWFDigLMpZcX',
             'callback_url' => '',
             'seed' => null,
         ]);
@@ -50,6 +51,7 @@ final class ElevenlabsClientTest extends TestCase
         self::assertSame('task_1', $task->id);
         self::assertSame('/api/v1/elevenlabs/text_to_speech', $transport->requests[0]->getUri()->getPath());
         self::assertSame('text-to-speech-multilingual-v2', $body['model']);
+        self::assertSame('EkK5I93UQWFDigLMpZcX', $body['voice']);
         self::assertArrayNotHasKey('callback_url', $body);
         self::assertArrayNotHasKey('seed', $body);
     }
@@ -65,6 +67,7 @@ final class ElevenlabsClientTest extends TestCase
         $result = $client->textToSpeech->run([
             'model' => 'text-to-speech-multilingual-v2',
             'text' => 'Hello from RunAPI',
+            'voice' => 'EkK5I93UQWFDigLMpZcX',
         ]);
 
         self::assertInstanceOf(CompletedAudioTaskResponse::class, $result);
@@ -87,6 +90,7 @@ final class ElevenlabsClientTest extends TestCase
         $client->textToSpeech->run([
             'model' => 'text-to-speech-multilingual-v2',
             'text' => 'Hello from RunAPI',
+            'voice' => 'EkK5I93UQWFDigLMpZcX',
         ]);
     }
 
