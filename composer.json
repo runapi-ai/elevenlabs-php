@@ -33,7 +33,7 @@
   "homepage": "https://runapi.ai/models/elevenlabs",
   "support": {
     "source": "https://github.com/runapi-ai/elevenlabs-php",
-    "docs": "https://runapi.ai/docs#sdk-elevenlabs",
+    "docs": "https://runapi.ai/docs/resources/sdks",
     "issues": "https://github.com/runapi-ai/elevenlabs-php/issues"
   },
   "keywords": [
