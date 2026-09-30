@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Elevenlabs\Models\AudioTaskResponse;
 use RunApi\Elevenlabs\Models\CompletedAudioTaskResponse;
-use RunApi\Elevenlabs\Types;
 
 /**
  * Generates sound effects (rain, footsteps, ambience, etc.) from text descriptions, not speech.
@@ -75,10 +74,8 @@ readonly class TextToSound extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/elevenlabs/text_to_sound',
-            'elevenlabs/text-to-sound',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,
-            Types::TEXT_TO_SOUND_MODELS,
             'text-to-sound',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,

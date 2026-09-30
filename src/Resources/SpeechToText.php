@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Elevenlabs\Models\CompletedSpeechToTextResponse;
 use RunApi\Elevenlabs\Models\SpeechToTextResponse;
-use RunApi\Elevenlabs\Types;
 
 /**
  * Transcribes audio with optional speaker diarization and audio event tagging (laughter, applause).
@@ -73,10 +72,8 @@ readonly class SpeechToText extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/elevenlabs/speech_to_text',
-            'elevenlabs/speech-to-text',
             SpeechToTextResponse::class,
             CompletedSpeechToTextResponse::class,
-            Types::SPEECH_TO_TEXT_MODELS,
             'speech-to-text',
             SpeechToTextResponse::class,
             CompletedSpeechToTextResponse::class,

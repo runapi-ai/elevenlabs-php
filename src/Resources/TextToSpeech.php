@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Elevenlabs\Models\AudioTaskResponse;
 use RunApi\Elevenlabs\Models\CompletedAudioTaskResponse;
-use RunApi\Elevenlabs\Types;
 
 /**
  * Generates single-speaker speech with configurable voice, speed, and language. Voice is optional for text-to-speech-turbo-v2.5 (uses a preset) but required for text-to-speech-multilingual-v2.
@@ -85,10 +84,8 @@ readonly class TextToSpeech extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/elevenlabs/text_to_speech',
-            'elevenlabs/text-to-speech',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,
-            Types::TEXT_TO_SPEECH_MODELS,
             'text-to-speech',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,

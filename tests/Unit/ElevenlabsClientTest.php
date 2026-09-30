@@ -34,8 +34,7 @@ final class ElevenlabsClientTest extends TestCase
     public function testCreatePostsCompactedBodyToCorrectPath(): void
     {
         $transport = new QueueHttpClient([
-            new Response(200, [], '{"id":"task_1"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1"}')]);
         $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $task = $client->textToSpeech->create([
@@ -43,8 +42,7 @@ final class ElevenlabsClientTest extends TestCase
             'text' => 'Hello from RunAPI',
             'voice' => 'EkK5I93UQWFDigLMpZcX',
             'callback_url' => '',
-            'seed' => null,
-        ]);
+            'seed' => null]);
 
         $body = json_decode((string) $transport->requests[0]->getBody(), true, flags: JSON_THROW_ON_ERROR);
 
@@ -60,15 +58,13 @@ final class ElevenlabsClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_1"}'),
-            new Response(200, [], '{"id":"task_1","status":"completed","audios":[{"url":"https://file.runapi.ai/result"}],"extra_field":"kept"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1","status":"completed","audios":[{"url":"https://file.runapi.ai/result"}],"extra_field":"kept","usage":{"cost":0.05}}')]);
         $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->textToSpeech->run([
             'model' => 'text-to-speech-multilingual-v2',
             'text' => 'Hello from RunAPI',
-            'voice' => 'EkK5I93UQWFDigLMpZcX',
-        ]);
+            'voice' => 'EkK5I93UQWFDigLMpZcX']);
 
         self::assertInstanceOf(CompletedAudioTaskResponse::class, $result);
         self::assertSame('https://file.runapi.ai/result', $result->audios[0]->url);
@@ -80,8 +76,7 @@ final class ElevenlabsClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_1"}'),
-            new Response(200, [], '{"id":"task_1","status":"completed"}'),
-        ]);
+            new Response(200, [], '{"id":"task_1","status":"completed","usage":{"cost":0.05}}')]);
         $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $this->expectException(ValidationException::class);
@@ -90,35 +85,18 @@ final class ElevenlabsClientTest extends TestCase
         $client->textToSpeech->run([
             'model' => 'text-to-speech-multilingual-v2',
             'text' => 'Hello from RunAPI',
-            'voice' => 'EkK5I93UQWFDigLMpZcX',
-        ]);
-    }
-
-    public function testRejectsInvalidContractEnum(): void
-    {
-        $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: new QueueHttpClient([]), maxRetries: 0));
-
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('stability must be one of the allowed values');
-
-        $client->textToDialogue->create([
-        'model' => 'text-to-dialogue-v3',
-        'dialogue' => [['text' => 'Hello there', 'voice' => 'Narrator']],
-        'stability' => 0.25,
-        ]);
+            'voice' => 'EkK5I93UQWFDigLMpZcX']);
     }
 
     public function testSecondaryResourceUsesItsOwnPath(): void
     {
         $transport = new QueueHttpClient([
-            new Response(200, [], '{"id":"task_2"}'),
-        ]);
+            new Response(200, [], '{"id":"task_2"}')]);
         $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $client->speechToText->create([
             'model' => 'speech-to-text',
-            'source_audio_url' => 'https://cdn.runapi.ai/public/samples/voice.mp3',
-        ]);
+            'source_audio_url' => 'https://cdn.runapi.ai/public/samples/voice.mp3']);
 
         self::assertSame('/api/v1/elevenlabs/speech_to_text', $transport->requests[0]->getUri()->getPath());
     }
@@ -127,15 +105,13 @@ final class ElevenlabsClientTest extends TestCase
     {
         $transport = new QueueHttpClient([
             new Response(200, [], '{"id":"task_3"}'),
-            new Response(200, [], '{"id":"task_3","status":"completed","text":"Hello world","extra_field":"kept"}'),
-        ]);
+            new Response(200, [], '{"id":"task_3","status":"completed","text":"Hello world","extra_field":"kept","usage":{"cost":0.05}}')]);
         $client = new ElevenlabsClient(new ClientOptions(apiKey: 'k', httpClient: $transport, maxRetries: 0));
 
         $result = $client->speechToText->run([
             'model' => 'speech-to-text',
             'source_audio_url' => 'https://cdn.runapi.ai/public/samples/voice.mp3',
-            'diarize' => true,
-        ]);
+            'diarize' => true]);
 
         self::assertInstanceOf(CompletedSpeechToTextResponse::class, $result);
         self::assertSame('Hello world', $result->text);

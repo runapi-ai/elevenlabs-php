@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Elevenlabs\Models\AudioTaskResponse;
 use RunApi\Elevenlabs\Models\CompletedAudioTaskResponse;
-use RunApi\Elevenlabs\Types;
 
 /**
  * Generates multi-speaker audio where each dialogue line can use a different voice.
@@ -71,10 +70,8 @@ readonly class TextToDialogue extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/elevenlabs/text_to_dialogue',
-            'elevenlabs/text-to-dialogue',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,
-            Types::TEXT_TO_DIALOGUE_MODELS,
             'text-to-dialogue',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,

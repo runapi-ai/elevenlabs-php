@@ -10,7 +10,6 @@ use RunApi\Core\RequestOptions;
 use RunApi\Core\Resources\TypedConfiguredResource;
 use RunApi\Elevenlabs\Models\AudioTaskResponse;
 use RunApi\Elevenlabs\Models\CompletedAudioTaskResponse;
-use RunApi\Elevenlabs\Types;
 
 /**
  * Separates vocals from background noise, returning a clean vocal-only audio track.
@@ -69,10 +68,8 @@ readonly class IsolateAudio extends TypedConfiguredResource
         return new self(
             $http,
             '/api/v1/elevenlabs/isolate_audio',
-            'elevenlabs/isolate-audio',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,
-            Types::ISOLATE_AUDIO_MODELS,
             'isolate-audio',
             AudioTaskResponse::class,
             CompletedAudioTaskResponse::class,
